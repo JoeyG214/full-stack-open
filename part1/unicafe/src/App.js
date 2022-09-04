@@ -7,8 +7,14 @@ const Button = ({ onClick, text }) => {
 }
 
 const Statistics = ({ good, neutral, bad, all}) => {
-  return (
-    <>
+  if (all === 0) {
+    return (
+      <p>No feedback given</p>
+    )
+  }
+  else {
+    return (
+      <>
       <p>good {good}</p>
       <p>neutral {neutral}</p>
       <p>bad {bad}</p>
@@ -16,7 +22,8 @@ const Statistics = ({ good, neutral, bad, all}) => {
       <p>average {(good - bad) / all}</p>
       <p>positive {(good / all) * 100}%</p>
     </>
-  )
+    )
+  }
 }
 
 const App = () => {
