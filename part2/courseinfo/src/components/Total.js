@@ -1,7 +1,13 @@
 const Total = ({parts}) => {
-  const [part1, part2, part3] = parts
+  let exercisesArr = parts.map(part => part.exercises)
+  let totalExercises = exercisesArr.reduce(
+    (prev, curr) => prev + curr, 0);
+
+  console.log(totalExercises)
   return (
-    <p>Number of exercises {part1.exercises + part2.exercises + part3.exercises}</p>
+    <p>
+      Number of exercises {totalExercises}
+    </p>
   )
 }
   
