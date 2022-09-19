@@ -1,35 +1,6 @@
-const Header = ({course}) => {
-  return (
-    <h1>{course}</h1>
-  )
-}
-
-const Content = ({parts}) => {
-  const [part1, part2, part3] = parts
-  return (
-    <>
-    <Part part={part1} />
-    <Part part={part2} />
-    <Part part={part3} />
-    </>
-  )
-}
-
-const Part = ({part}) => {
-  const {name, exercises} = part
-  return (
-    <div>
-    <p>{name} {exercises}</p>
-    </div>
-  )
-}
-
-const Total = ({parts}) => {
-  const [part1, part2, part3] = parts
-  return (
-    <p>Number of exercises {part1.exercises + part2.exercises + part3.exercises}</p>
-  )
-}
+import Header from './components/Header'
+import Content from './components/Content'
+import Total from './components/Total'
 
 const App = () => {
   const course = {
