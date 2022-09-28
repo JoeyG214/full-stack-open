@@ -5,7 +5,7 @@ import CountryInfo from './components/CountryInfo';
 const App = () => {
   
   const [countries, setCountries] = useState([])
-  const [country, setCountry] = useState('')
+  const [showCountry, setShowCountry] = useState('')
 
   useEffect(() => {
     axios
@@ -15,8 +15,8 @@ const App = () => {
       })
   }, [])
 
-  const handleCountryChange = (event) => {
-    setCountry(event.target.value)
+  const handleShowCountryChange = (event) => {
+    setShowCountry(event.target.value)
   }
 
   return (
@@ -24,10 +24,10 @@ const App = () => {
       <h1>Search Countries</h1>
       <div className='search-countries'>
         Country Name:
-        <input value={country} onChange={handleCountryChange} />
+        <input value={showCountry} onChange={handleShowCountryChange} />
       </div>
       <h2>Countries</h2>
-      <CountryInfo countries={countries} />
+      <CountryInfo countries={countries} showCountry={showCountry} />
     </div>
   );
 }

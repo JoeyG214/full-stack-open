@@ -1,9 +1,11 @@
-const CountryInfo = ({countries}) => {
-  console.log(countries)
+const CountryInfo = ({ countries, showCountry}) => {
+
+  const countriesToShow = countries.filter(country => country.name.common.includes(showCountry))
+  
   return (
     <div className="country-info">
       <ul>
-        {countries.map(country => 
+        {countriesToShow.map(country => 
           <li>{country.name.common}</li> 
         )}
       </ul>
