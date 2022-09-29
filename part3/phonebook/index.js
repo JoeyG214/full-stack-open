@@ -43,8 +43,22 @@ app.get('/api/persons/:id', (request, response) => {
   }
 })
 
-// app.get('/info', (request, response) => {
+app.get('/info', (request, response) => {
+  const currentDate = new Date()
+  response.send(
+    `<div>
+      <p>Phonebook has info for ${persons.length} people</p>
+    </div>
+    <div>
+      <p>${currentDate}</p>
+    </div>`
+  )
+})
 
+// app.delete('/api/persons/:id', (request, response) => {
+//   const id = Number(request.params.id)
+//   persons = persons.filter(person => person.id !== id)
+//   response.status(204).end()
 // })
 
 app.listen(PORT, () => {
