@@ -35,12 +35,25 @@ const App = () => {
       })
     }
     else {
-      alert(`${newName} is already in the phonebook`)
+      if(window.confirm(`${newName} is already in the phonebook, replace the old number with a new one?`)) {
+        const thisPerson = persons.find(person => person.name === newName)
+        const personObject = {
+          ...thisPerson,
+          number: newNumber
+        }
+        personService
+          .update(personObject.id, personObject)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== thisPerson.id ? person : returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          })
+      }
     }
   }
 
   const deletePerson = (id) => {
-    const thisPerson = personsToShow.filter(person => person.id === id)
+    const thisPerson = persons.filter(person => person.id === id)
     const personName = thisPerson[0].name
     const personID = thisPerson[0].id
     if (window.confirm(`Delete ${personName} from phonebook?`)) {
