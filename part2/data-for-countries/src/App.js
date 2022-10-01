@@ -25,7 +25,7 @@ const App = () => {
       <h1>Search Countries</h1>
       <SearchCountries showCountry={showCountry} handleShowCountryChange={handleShowCountryChange} />
       <h2>Countries</h2>
-      <CountryInfo countries={countries} showCountry={showCountry} />
+      <CountryInfo countries={countries} setCountries={setCountries} showCountry={showCountry} />
     </div>
   );
 }

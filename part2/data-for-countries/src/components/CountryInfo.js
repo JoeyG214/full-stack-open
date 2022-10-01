@@ -1,6 +1,6 @@
 import DisplayCountry from "./DisplayCountry"
 
-const CountryInfo = ({ countries, showCountry}) => {
+const CountryInfo = ({ countries, setCountries, showCountry}) => {
 
   const countriesToShow = countries.filter(country => country.name.common.includes(showCountry))
 
@@ -18,6 +18,7 @@ const CountryInfo = ({ countries, showCountry}) => {
           {countriesToShow.map(country => 
             <li key={country.name.common}>
               {country.name.common}
+              <button onClick={() => setCountries([country])} >Show</button>
             </li> 
           )}
         </ul>
