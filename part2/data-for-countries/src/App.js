@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios';
 import CountryInfo from './components/CountryInfo';
+import SearchCountries from './components/SearchCountries';
 
 const App = () => {
   
@@ -22,10 +23,7 @@ const App = () => {
   return (
     <div className="App">
       <h1>Search Countries</h1>
-      <div className='search-countries'>
-        Country Name:
-        <input value={showCountry} onChange={handleShowCountryChange} />
-      </div>
+      <SearchCountries showCountry={showCountry} handleShowCountryChange={handleShowCountryChange} />
       <h2>Countries</h2>
       <CountryInfo countries={countries} showCountry={showCountry} />
     </div>
