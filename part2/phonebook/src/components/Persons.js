@@ -7,9 +7,8 @@ const Persons = ({personsToShow, deletePerson}) => {
                 {personsToShow.map(person => 
                     <Person 
                     key={person.id} 
-                    id={person.id}
                     name={person.name} number={person.number} 
-                    deletePerson={deletePerson}
+                    deletePerson={() => deletePerson(person.id)}
                     />
                 )}
             </ul>

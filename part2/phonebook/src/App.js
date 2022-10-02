@@ -3,12 +3,14 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
+import Message from './components/Message'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [show, setShow] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -16,11 +18,15 @@ const App = () => {
       .then(initialPersons => {
         setPersons(initialPersons)
       })
+      .catch(error => {
+        alert('Failed to retrieve persons from server.')
+        console.log(error)
+      })
   },[])
 
   const addPerson = (event) => {
     event.preventDefault() 
-    //Check to see how this works
+    // .some returns T/F
     if (!persons.some(person => person.name === newName)) {
       const personObject = {
         name: newName,
@@ -32,10 +38,19 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-      })
+          setMessage(`Added ${returnedPerson.name} to phonebook.`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+          .catch(error => {
+            alert(`Failed to add ${personObject.name} to the server.`)
+            console.log(error)
+          })
+        })
     }
     else {
       if(window.confirm(`${newName} is already in the phonebook, replace the old number with a new one?`)) {
+        // Returns first element in array where condition is true
         const thisPerson = persons.find(person => person.name === newName)
         const personObject = {
           ...thisPerson,
@@ -47,6 +62,16 @@ const App = () => {
             setPersons(persons.map(person => person.id !== thisPerson.id ? person : returnedPerson))
             setNewName('')
             setNewNumber('')
+            setMessage(`Updated ${personObject.name}'s phone number to ${personObject.number}`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
+          })
+          .catch(error => {
+            alert(`Failed to update the phone number of ${personObject.name}.`)
+            setPersons(persons.filter(person => person.id !== thisPerson.id))
+            setMessage(`Information of ${personObject.name} has already been removed from the server.`)
+            console.log(error)
           })
       }
     }
@@ -59,8 +84,15 @@ const App = () => {
     if (window.confirm(`Delete ${personName} from phonebook?`)) {
       personService
         .remove(personID)
-      console.log(`${personName} was successfully deleted`)
+        .catch(error => {
+          alert(`Failed to delete ${personName} from the server.`)
+          console.log(error)
+        })
       setPersons(persons.filter(person => person.id !== personID))
+      setMessage(`Deleted ${personName} from the phonebook.`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
   }
 
@@ -81,6 +113,7 @@ const App = () => {
   return (
     <div className='app'>
       <h1>Phonebook</h1>
+      <Message message={message} />
       <Filter value={show} onChange={handleShowChange} />
       <h2>Add a new person</h2>
       <PersonForm 
