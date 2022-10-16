@@ -27,20 +27,16 @@ let persons = [
 ]
 
 // Middleware - Used for handling request and reponse objects
-const requestLogger = (request, response, next) => {
-  console.log('Methods: ', request.method)
-  console.log('Path: ', request.path)
-  console.log('Body: ', request.body)
-  console.log('---')
-  next()
-}
+morgan.token('data', (request, response) => {
+  const { body } = request
+  console.log(body)
+  return JSON.stringify(body)
+})
 
 // Used for the POST HTTP Method
 app.use(express.json())
 
-app.use(requestLogger)
-
-app.use(morgan('tiny'))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
 const generateID = () => {
   return Math.floor(Math.random() * 10000)
