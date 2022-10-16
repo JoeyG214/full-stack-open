@@ -1,4 +1,5 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 const PORT = 3001
 
@@ -38,6 +39,8 @@ const requestLogger = (request, response, next) => {
 app.use(express.json())
 
 app.use(requestLogger)
+
+app.use(morgan('tiny'))
 
 const generateID = () => {
   return Math.floor(Math.random() * 10000)
