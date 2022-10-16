@@ -2,8 +2,6 @@ const express = require('express')
 const app = express()
 const PORT = 3001
 
-app.use(express.json())
-
 let persons = [
   { 
     "id": 1,
@@ -26,6 +24,24 @@ let persons = [
     "number": "39-23-6423122"
   }
 ]
+
+// Middleware - Used for handling request and reponse objects
+const requestLogger = (request, response, next) => {
+  console.log('Methods: ', request.method)
+  console.log('Path: ', request.path)
+  console.log('Body: ', request.body)
+  console.log('---')
+  next()
+}
+
+// Used for the POST HTTP Method
+app.use(express.json())
+
+app.use(requestLogger)
+
+const generateID = () => {
+  return Math.floor(Math.random() * 10000)
+}
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
@@ -63,10 +79,6 @@ app.delete('/api/persons/:id', (request, response) => {
   response.status(204).end()
 })
 
-const generateID = () => {
-  return Math.floor(Math.random() * 10000)
-}
-
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
@@ -87,6 +99,12 @@ app.post('/api/persons', (request, response) => {
 
   response.json(person)
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
