@@ -29,6 +29,8 @@ let persons = [
 // Middleware - Used for handling request and reponse objects
 app.use(cors())
 
+app.use(express.static('build'))
+
 morgan.token('data', (request, response) => {
   const { body } = request
   return JSON.stringify(body)
