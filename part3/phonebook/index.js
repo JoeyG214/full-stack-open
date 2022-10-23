@@ -20,11 +20,6 @@ morgan.token('data', (request, response) => {
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
-
-const generateID = () => {
-  return Math.floor(Math.random() * 10000)
-}
-
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
@@ -38,13 +33,11 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const person = persons.find(person => person.id === id)
-  if (person) {
-    response.json(person)
-  } else {
-    response.status(404).end()
-  }
+  Person
+    .findById(request.params.id)
+    .then(person => {
+      response.json(person)
+    })
 })
 
 app.get('/info', (request, response) => {
@@ -71,19 +64,20 @@ app.post('/api/persons', (request, response) => {
   if (!(body.name && body.number)) {
     return response.status(400).json({ error: 'content missing' })
   }
-  else if (persons.some(person => person.name === body.name )) {
-    return response.status(400).json({ error: 'name must be unique' })
-  }
+  // else if (persons.some(person => person.name === body.name )) {
+  //   return response.status(400).json({ error: 'name must be unique' })
+  // }
 
-  const person = {
-    id: generateID(),
+  const person = new Person({
     name: body.name,
     number: body.number
-  }
+  })
 
-  persons = persons.concat(person)
-
-  response.json(person)
+  person
+    .save()
+    .then(savedPerson => {
+      response.json(savedPerson)
+    })
 })
 
 const unknownEndpoint = (request, response) => {
