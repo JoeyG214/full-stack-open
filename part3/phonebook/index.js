@@ -5,13 +5,13 @@ const morgan = require('morgan')
 const app = express()
 const Person = require('./models/person')
 
-// Middleware - Used for handling request and reponse objects
+// Middleware 
 app.use(cors())
+
+app.use(express.static('build'))
 
 // Used for the POST HTTP Method
 app.use(express.json())
-
-app.use(express.static('build'))
 
 morgan.token('data', (request, response) => {
   const { body } = request
@@ -19,6 +19,7 @@ morgan.token('data', (request, response) => {
 })
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
+
 
 // HTTP Requests Handling
 app.get('/', (request, response) => {
@@ -43,10 +44,7 @@ app.get('/api/persons/:id', (request, response) => {
         response.status(404).end()
       }
     })
-    .catch(error => {
-      console.log(error)
-      response.status(400).send({ error: 'malformatted id' })
-    })
+    .catch(error => next(error))
 })
 
 app.get('/info', (request, response) => {
@@ -65,6 +63,7 @@ app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
   persons = persons.filter(person => person.id !== id)
   response.status(204).end()
+  //Add catch
 })
 
 app.post('/api/persons', (request, response) => {
@@ -92,8 +91,20 @@ app.post('/api/persons', (request, response) => {
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
-
+// handler of requests with unknown endpoint
 app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+// handler of requests with result to errors
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
