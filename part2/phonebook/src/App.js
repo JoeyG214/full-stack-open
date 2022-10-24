@@ -42,10 +42,12 @@ const App = () => {
           setTimeout(() => {
             setMessage(null)
           }, 5000)
-          .catch(error => {
-            alert(`Failed to add ${personObject.name} to the server.`)
-            console.log(error)
-          })
+        })
+        .catch(error => {
+          setMessage(`${error.response.data.error}`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
     }
     else {
@@ -68,10 +70,13 @@ const App = () => {
             }, 5000)
           })
           .catch(error => {
-            alert(`Failed to update the phone number of ${personObject.name}.`)
             setPersons(persons.filter(person => person.id !== thisPerson.id))
+            setNewName('')
+            setNewNumber('')
             setMessage(`Information of ${personObject.name} has already been removed from the server.`)
-            console.log(error)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
           })
       }
     }
