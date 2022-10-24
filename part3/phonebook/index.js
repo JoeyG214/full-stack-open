@@ -26,6 +26,23 @@ app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
 
+app.get('/info', (request, response) => {
+  Person
+    .find({})
+    .then(persons => persons ? persons.length : 0)
+    .then(entries => {
+      const currentDate = new Date()
+      response.send(
+        `<div>
+          <p>Phonebook has info for ${entries} people</p>
+        </div>
+        <div>
+          <p>${currentDate}</p>
+        </div>`
+      )
+    })
+})
+
 app.get('/api/persons', (request, response, next) => {
   Person
     .find({})
@@ -46,18 +63,6 @@ app.get('/api/persons/:id', (request, response, next) => {
       }
     })
     .catch(error => next(error))
-})
-
-app.get('/info', (request, response) => {
-  const currentDate = new Date()
-  response.send(
-    `<div>
-      <p>Phonebook has info for ${persons.length} people</p>
-    </div>
-    <div>
-      <p>${currentDate}</p>
-    </div>`
-  )
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
