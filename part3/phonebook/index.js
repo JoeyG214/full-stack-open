@@ -5,7 +5,7 @@ const morgan = require('morgan')
 const app = express()
 const Person = require('./models/person')
 
-// Middleware 
+// Middleware
 app.use(cors())
 
 app.use(express.static('build'))
@@ -13,7 +13,7 @@ app.use(express.static('build'))
 // Used for the POST HTTP Method
 app.use(express.json())
 
-morgan.token('data', (request, response) => {
+morgan.token('data', (request) => {
   const { body } = request
   return JSON.stringify(body)
 })
@@ -103,7 +103,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 app.delete('/api/persons/:id', (request, response, next) => {
   Person
     .findByIdAndRemove(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))

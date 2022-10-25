@@ -1,4 +1,4 @@
-// This file is only for testing purposes. 
+// This file is only for testing purposes.
 
 const mongoose = require('mongoose')
 
@@ -8,7 +8,7 @@ if (process.argv.length < 3) {
 }
 
 if (process.argv.length > 5) {
-  console.log("Please match the following format: node mongo.js <password> <name> <number>")
+  console.log('Please match the following format: node mongo.js <password> <name> <number>')
   process.exit(1)
 }
 
@@ -19,7 +19,7 @@ const url = `mongodb+srv://phonebook:${password}@cluster0.8xzqskw.mongodb.net/pe
 
 mongoose
   .connect(url)
-  .then(result => {
+  .then(() => {
     console.log('Connected')
   })
   .catch(error => {
@@ -41,7 +41,7 @@ const person = new Person({
 if (process.argv.length === 5) {
   person
     .save()
-    .then(result => {
+    .then(() => {
       console.log(`Added ${name} number ${number} to phonebook`)
       mongoose.connection.close()
     })

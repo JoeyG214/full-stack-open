@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
-const url = process.env.MONGODB_URI 
+const url = process.env.MONGODB_URI
 
 mongoose
   .connect(url)
-  .then(result => {
+  .then(() => {
     console.log('Connected to MongoDB')
   })
   .catch(error => {
@@ -33,5 +33,5 @@ personSchema
       delete returnedObject.__v
     }
   })
-  
+
 module.exports = mongoose.model('Person', personSchema)
