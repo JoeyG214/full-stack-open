@@ -2,10 +2,6 @@ const personsRouter = require('express').Router()
 const Person = require('../models/person')
 
 // HTTP Requests Handling /api/persons
-personsRouter.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
-})
-
 personsRouter.get('/', (request, response, next) => {
   Person
     .find({})

@@ -18,3 +18,5 @@ infoRouter.get('/info', (request, response) => {
       )
     })
 })
+
+module.exports = infoRouter

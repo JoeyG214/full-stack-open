@@ -30,7 +30,7 @@ morgan.token('data', (request) => {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
 app.use('/', infoRouter)
-app.use('/api/notes', personsRouter)
+app.use('/api/persons', personsRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
