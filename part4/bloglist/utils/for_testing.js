@@ -6,6 +6,16 @@ const totalLikes = (blogs) => {
   return likes
 }
 
+const favoriteBlogs = (blogs) => {
+  let favoriteBlog = blogs[0]
+  for (let blog of blogs) {
+    if (favoriteBlog.likes < blog.likes) {
+      favoriteBlog = blog
+    }
+  }
+  return favoriteBlog
+}
+
 const nonExistingId = () => {
   return 1
 }
@@ -20,6 +30,7 @@ const usersInDB = () => {
 
 module.exports = {
   totalLikes,
+  favoriteBlogs,
   nonExistingId,
   notesInDB,
   usersInDB
